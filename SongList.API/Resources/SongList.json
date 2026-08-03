@@ -1,0 +1,15 @@
+[
+    {
+        "id": 1,
+        "title": "Never Gonna Give You Up",
+        "artist": "Rick Astley",
+        "album": "Whenever You Need Somebody",
+        "year": 1987,
+        "genre": "Pop",
+        "tags": [
+            "80s",
+            "dance",
+            "classic"
+        ]
+    }
+]

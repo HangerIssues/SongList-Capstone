@@ -1,0 +1,14 @@
+C:\Users\jakes\Projects\CsharpProjects\SongListCapstone\SongList.Console\bin\Debug\net10.0\SongList.Console.exe
+C:\Users\jakes\Projects\CsharpProjects\SongListCapstone\SongList.Console\bin\Debug\net10.0\SongList.Console.deps.json
+C:\Users\jakes\Projects\CsharpProjects\SongListCapstone\SongList.Console\bin\Debug\net10.0\SongList.Console.runtimeconfig.json
+C:\Users\jakes\Projects\CsharpProjects\SongListCapstone\SongList.Console\bin\Debug\net10.0\SongList.Console.dll
+C:\Users\jakes\Projects\CsharpProjects\SongListCapstone\SongList.Console\bin\Debug\net10.0\SongList.Console.pdb
+C:\Users\jakes\Projects\CsharpProjects\SongListCapstone\SongList.Console\obj\Debug\net10.0\SongList.Console.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jakes\Projects\CsharpProjects\SongListCapstone\SongList.Console\obj\Debug\net10.0\SongList.Console.AssemblyInfoInputs.cache
+C:\Users\jakes\Projects\CsharpProjects\SongListCapstone\SongList.Console\obj\Debug\net10.0\SongList.Console.AssemblyInfo.cs
+C:\Users\jakes\Projects\CsharpProjects\SongListCapstone\SongList.Console\obj\Debug\net10.0\SongList.Console.csproj.CoreCompileInputs.cache
+C:\Users\jakes\Projects\CsharpProjects\SongListCapstone\SongList.Console\obj\Debug\net10.0\SongList.Console.dll
+C:\Users\jakes\Projects\CsharpProjects\SongListCapstone\SongList.Console\obj\Debug\net10.0\refint\SongList.Console.dll
+C:\Users\jakes\Projects\CsharpProjects\SongListCapstone\SongList.Console\obj\Debug\net10.0\SongList.Console.pdb
+C:\Users\jakes\Projects\CsharpProjects\SongListCapstone\SongList.Console\obj\Debug\net10.0\SongList.Console.genruntimeconfig.cache
+C:\Users\jakes\Projects\CsharpProjects\SongListCapstone\SongList.Console\obj\Debug\net10.0\ref\SongList.Console.dll

@@ -1,0 +1,6 @@
+@SongList.API_HostAddress = http://localhost:5298
+
+GET {{SongList.API_HostAddress}}/songs/
+Accept: application/json
+
+###
