@@ -1,6 +1,32 @@
 @SongList.API_HostAddress = http://localhost:5298
 
-GET http://localhost:5298/api/songs
+GET http://localhost:5298/songs
 Accept: application/json
 
 ###
+
+GET http://localhost:5298/songs/2
+Accept: application/json
+
+###
+
+Post http://localhost:5298/songs
+Content-Type: application/json
+
+{
+    "id": 2,
+    "title": "Newer Song",
+    "artist": "New Artist",
+    "album": "New Album",
+    "year": 2023,
+    "genre": "New Genre",
+    "tags": [
+        "tag1",
+        "tag2"
+    ]
+}
+
+###
+
+DELETE http://localhost:5298/songs/2
+Accept: application/json

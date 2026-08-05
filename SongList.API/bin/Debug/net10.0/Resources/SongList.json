@@ -1,15 +1,27 @@
 [
-    {
-        "id": 1,
-        "title": "Never Gonna Give You Up",
-        "artist": "Rick Astley",
-        "album": "Whenever You Need Somebody",
-        "year": 1987,
-        "genre": "Pop",
-        "tags": [
-            "80s",
-            "dance",
-            "classic"
-        ]
-    }
+  {
+    "Id": 1,
+    "Title": "Never Gonna Give You Up",
+    "Artist": "Rick Astley",
+    "Album": "Whenever You Need Somebody",
+    "Year": 1987,
+    "Genre": "Pop",
+    "Tags": [
+      "80s",
+      "dance",
+      "classic"
+    ]
+  },
+  {
+    "Id": 2,
+    "Title": "Newer Song",
+    "Artist": "New Artist",
+    "Album": "New Album",
+    "Year": 2023,
+    "Genre": "New Genre",
+    "Tags": [
+      "tag1",
+      "tag2"
+    ]
+  }
 ]
