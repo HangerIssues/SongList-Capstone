@@ -1,6 +1,6 @@
 @SongList.API_HostAddress = http://localhost:5298
 
-GET {{SongList.API_HostAddress}}/songs/
+GET http://localhost:5298/api/songs
 Accept: application/json
 
 ###

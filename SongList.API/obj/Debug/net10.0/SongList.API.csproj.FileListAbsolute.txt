@@ -32,3 +32,5 @@ C:\Users\jakes\Projects\CsharpProjects\SongListCapstone\SongList.API\obj\Debug\n
 C:\Users\jakes\Projects\CsharpProjects\SongListCapstone\SongList.API\obj\Debug\net10.0\SongList.API.genruntimeconfig.cache
 C:\Users\jakes\Projects\CsharpProjects\SongListCapstone\SongList.API\obj\Debug\net10.0\ref\SongList.API.dll
 C:\Users\jakes\Projects\CsharpProjects\SongListCapstone\SongList.API\bin\Debug\net10.0\Resources\SongList.json
+C:\Users\jakes\Projects\CsharpProjects\SongListCapstone\SongList.API\obj\Debug\net10.0\SongList.API.sourcelink.json
+C:\Users\jakes\Projects\CsharpProjects\SongListCapstone\SongList.API\bin\Debug\net10.0\Scalar.AspNetCore.dll
