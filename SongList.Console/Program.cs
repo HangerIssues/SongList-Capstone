@@ -107,8 +107,10 @@ while (!exit)
                 if(response.IsSuccessStatusCode)
                 {
                     var data = await response.Content.ReadAsStringAsync();
-                    Song? updatedSong = JsonSerializer.Deserialize<Song>(data);
-                    Console.WriteLine("Enter new information. Leave blank to keep existing information.");
+                    var updatedSong = JsonSerializer.Deserialize<Song>(
+                        data,
+                        new JsonSerializerOptions { PropertyNameCaseInsensitive = true});
+                    Console.WriteLine("Enter new information. Do not leave fields blank.");
                     Console.WriteLine("New title: ");
                     string? newTitle = Console.ReadLine();
                     if(newTitle != null)
