@@ -27,8 +27,18 @@ while (!exit)
             response = await client.GetAsync("/songs");
             if(response.IsSuccessStatusCode)
             {
-                var data = await response.Content.ReadAsStringAsync();
-                Console.WriteLine(data);
+                var songsRaw = await response.Content.ReadAsStringAsync();
+                var songs = JsonSerializer.Deserialize<List<Song>>(
+                    songsRaw,
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                
+                foreach(var song in songs)
+                {
+                    Console.WriteLine($"Id: {song.Id}");
+                    Console.WriteLine($"Title: {song.Title}");
+                    Console.WriteLine($"Artist: {song.Artist}");
+                    Console.WriteLine();
+                }
             }
             else
             {
@@ -44,8 +54,21 @@ while (!exit)
                 response = await client.GetAsync($"/songs/{id}");
                 if(response.IsSuccessStatusCode)
                 {
-                    var data = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine(data);
+                    var searchSongRaw = await response.Content.ReadAsStringAsync();
+                    var searchSong = JsonSerializer.Deserialize<Song>(
+                        searchSongRaw,
+                        new JsonSerializerOptions { PropertyNameCaseInsensitive = true});
+                    
+                    string tagsString = string.Join(",", searchSong.Tags);
+                    
+                    Console.WriteLine($"Id: {searchSong.Id}");
+                    Console.WriteLine($"Title: {searchSong.Title}");
+                    Console.WriteLine($"Artist: {searchSong.Artist}");
+                    Console.WriteLine($"Album: {searchSong.Album}");
+                    Console.WriteLine($"Year: {searchSong.Year}");
+                    Console.WriteLine($"Genre: {searchSong.Genre}");
+                    Console.WriteLine($"Tags: {tagsString}");
+                    Console.WriteLine();
                 }
                 else
                 {
@@ -58,43 +81,57 @@ while (!exit)
             }
             break;
         case "3":
-            Console.WriteLine("Enter song information.");
+            Console.WriteLine("Enter new song information.");
 
-            Console.WriteLine("Id: ");
-            int newId = int.Parse(Console.ReadLine());
+            //Console.WriteLine("Id: ");
+            //int newId = int.Parse(Console.ReadLine());
 
             Console.WriteLine("Title: ");
-            string? title = Console.ReadLine();
+            string? newTitle = Console.ReadLine();
 
             Console.WriteLine("Artist: ");
-            string? artist = Console.ReadLine();
+            string? newArtist = Console.ReadLine();
 
             Console.WriteLine("Album");
-            string? album = Console.ReadLine();
+            string? newAlbum = Console.ReadLine();
 
             Console.WriteLine("Year: ");
-            int year = int.Parse(Console.ReadLine());
+            int newYear = int.Parse(Console.ReadLine());
 
             Console.WriteLine("Genre: ");
-            string? genre = Console.ReadLine();
+            string? newGenre = Console.ReadLine();
 
             Console.WriteLine("Tags(Seperated by commas): ");
-            List<string> tags = Console.ReadLine().Split(",").ToList();
+            List<string> newTags = Console.ReadLine().Split(",").ToList();
 
-            Song song = new Song
+            response = await client.GetAsync("/songs");
+            if(response.IsSuccessStatusCode)
             {
-                Id = newId,
-                Title = title,
-                Artist = artist,
-                Album = album,
-                Year = year,
-                Genre = genre,
-                Tags = tags
-            };
+                var currentSongsRaw = await response.Content.ReadAsStringAsync();
+                var currentSongs = JsonSerializer.Deserialize<List<Song>>(
+                    currentSongsRaw,
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                
+                Song newSong = new Song
+                {
+                    Id = currentSongs.Count + 1,
+                    Title = newTitle,
+                    Artist = newArtist,
+                    Album = newAlbum,
+                    Year = newYear,
+                    Genre = newGenre,
+                    Tags = newTags
+                };
 
-            string json = JsonSerializer.Serialize(song);
-            var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
-            response = await client.PostAsync("/songs", stringContent);
+                string newSongRaw = JsonSerializer.Serialize(newSong);
+                var stringContent = new StringContent(newSongRaw, Encoding.UTF8, "application/json");
+                await client.PostAsync("/songs", stringContent);
+                Console.WriteLine($"Created song with id: {newSong.Id}");
+            }
+            else
+            {
+                Console.WriteLine($"Error: {response.StatusCode}");
+            }
 
             break;
         case "4":
@@ -110,54 +147,63 @@ while (!exit)
                     var updatedSong = JsonSerializer.Deserialize<Song>(
                         data,
                         new JsonSerializerOptions { PropertyNameCaseInsensitive = true});
-                    Console.WriteLine("Enter new information. Do not leave fields blank.");
+                    Console.WriteLine("Enter new information. Leave blank to keep existing information.");
+                    
+                    Console.WriteLine($"Current title: {updatedSong.Title}");
                     Console.WriteLine("New title: ");
-                    string? newTitle = Console.ReadLine();
-                    if(newTitle != null)
+                    string? updateTitle = Console.ReadLine();
+                    if(!updateTitle.IsWhiteSpace())
                     {
-                        updatedSong.Title = newTitle;
+                        updatedSong.Title = updateTitle;
                     }
 
+                    Console.WriteLine($"Current artist: {updatedSong.Artist}");
                     Console.WriteLine("New artist: ");
-                    string? newArtist = Console.ReadLine();
-                    if(newArtist != null)
+                    string? updateArtist = Console.ReadLine();
+                    if(!updateArtist.IsWhiteSpace())
                     {
-                        updatedSong.Artist = newArtist;
+                        updatedSong.Artist = updateArtist;
                     }
 
+                    Console.WriteLine($"Current album: {updatedSong.Album}");
                     Console.WriteLine("New album: ");
-                    string? newAlbum = Console.ReadLine();
-                    if(newAlbum != null)
+                    string? updateAlbum = Console.ReadLine();
+                    if(!updateAlbum.IsWhiteSpace())
                     {
-                        updatedSong.Album = newAlbum;
+                        updatedSong.Album = updateAlbum;
                     }
 
+                    Console.WriteLine($"Current year: {updatedSong.Year}");
                     Console.WriteLine("New year: ");
-                    string? newYearString = Console.ReadLine();
-                    if(newYearString != null)
+                    string? updateYearString = Console.ReadLine();
+                    if(!updateYearString.IsWhiteSpace())
                     {
-                        int newYear = int.Parse(newYearString);
-                        updatedSong.Year = newYear;
+                        int updateYear = int.Parse(updateYearString);
+                        updatedSong.Year = updateYear;
                     }
 
+                    Console.WriteLine($"Current genre: {updatedSong.Genre}");
                     Console.WriteLine("New genre: ");
-                    string? newGenre = Console.ReadLine();
-                    if(newGenre != null)
+                    string? updateGenre = Console.ReadLine();
+                    if(!updateGenre.IsWhiteSpace())
                     {
-                        updatedSong.Genre = newGenre;
+                        updatedSong.Genre = updateGenre;
                     }
 
+                    string currentTagsString = string.Join(",", updatedSong.Tags);
+                    Console.WriteLine($"Current tags: {currentTagsString}");
                     Console.WriteLine("New tags (Seperated by commas): ");
-                    string? newTagsString = Console.ReadLine();
-                    if(newTagsString != null)
+                    string? updateTagsString = Console.ReadLine();
+                    if(!updateTagsString.IsWhiteSpace())
                     {
-                        List<string> newTags = newTagsString.Split(",").ToList();
-                        updatedSong.Tags = newTags;
+                        List<string> updateTags = updateTagsString.Split(",").ToList();
+                        updatedSong.Tags = updateTags;
                     }
 
                     string updatedJson = JsonSerializer.Serialize(updatedSong);
                     var updatedStringContent = new StringContent(updatedJson, Encoding.UTF8, "application/json");
-                    response = await client.PutAsync($"/songs/{updateId}", updatedStringContent);
+                    await client.PutAsync($"/songs/{updateId}", updatedStringContent);
+                    Console.WriteLine($"Updated song with id: {updatedSong.Id}");
                 }
                 else
                 {
@@ -172,10 +218,10 @@ while (!exit)
             break;
         case "5":
             Console.WriteLine("Enter id of song to be deleted: ");
-            string? idString = Console.ReadLine();
-            if(idString != null)
+            string? deleteIdString = Console.ReadLine();
+            if(deleteIdString != null)
             {
-                int deleteId = int.Parse(idString);
+                int deleteId = int.Parse(deleteIdString);
                 response = await client.DeleteAsync($"/songs/{deleteId}");
                 if(response.IsSuccessStatusCode)
                 {
@@ -196,7 +242,7 @@ while (!exit)
             break;
     }
 }
-
+/*
 async void ListAllSongs()
 {
     using (var client = new HttpClient())
@@ -240,4 +286,4 @@ void DeleteSong()
 {
     // Implement logic to delete a song
     Console.WriteLine("Deleting a song...");
-}
+}*/

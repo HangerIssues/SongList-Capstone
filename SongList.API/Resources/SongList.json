@@ -14,11 +14,11 @@
   },
   {
     "Id": 2,
-    "Title": "",
-    "Artist": "Newer Artist",
-    "Album": "Newer Album",
-    "Year": 2025,
-    "Genre": "Newer Genre",
+    "Title": "Newest Title",
+    "Artist": "New Artist",
+    "Album": "New Album",
+    "Year": 2026,
+    "Genre": "New Genre",
     "Tags": [
       "tag1",
       "tag2",
