@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="SongList.API/SongList.API.csproj" />
   <Project Path="SongList.Console/SongList.Console.csproj" />
+  <Project Path="SongList.Tests/SongList.Tests.csproj" />
 </Solution>
