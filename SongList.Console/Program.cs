@@ -3,11 +3,12 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
 using SongList.Console.Models;
+using SongListLibrary;
 
 //HttpClient client = new HttpClient();
 //client.BaseAddress = new Uri("http://localhost:5298");
 //HttpResponseMessage response;
-
+var methodLibrary = new MethodLibrary();
 bool exit = false;
 while (!exit)
 {
@@ -44,7 +45,7 @@ while (!exit)
             {
                 Console.WriteLine($"Error: {response.StatusCode}");
             }*/
-            var songs = await GetAllSongs();
+            var songs = await methodLibrary.GetAllSongs();
 
             foreach(var song in songs)
             {
@@ -89,7 +90,13 @@ while (!exit)
             {
                 Console.WriteLine("Invalid choice.");
             }*/
-            var searchSong = await GetSongById();
+            Console.WriteLine("Enter searchId: ");
+            if(!int.TryParse(Console.ReadLine(), out int searchId))
+            {
+                Console.WriteLine("Invalid id.");
+                break;
+            }
+            var searchSong = await methodLibrary.GetSongById(searchId);
 
             string tagsString = string.Join(",", searchSong.Tags);
             
@@ -155,7 +162,48 @@ while (!exit)
             {
                 Console.WriteLine($"Error: {response.StatusCode}");
             }*/
-            await AddNewSong();
+            var songList = await methodLibrary.GetAllSongs();
+            Console.WriteLine("Enter new song information.");
+            Console.WriteLine("Title: ");
+            string? newTitle = Console.ReadLine();
+
+            Console.WriteLine("Artist: ");
+            string? newArtist = Console.ReadLine();
+        
+            Console.WriteLine("Album: ");
+            string? newAlbum = Console.ReadLine();
+
+            Console.WriteLine("Year: ");
+            string? newYearString = Console.ReadLine();
+
+            Console.WriteLine("Genre: ");
+            string? newGenre = Console.ReadLine();
+
+            Console.WriteLine("Tags (Seperate by commas): ");
+            string? newTagsString = Console.ReadLine();
+
+            if(string.IsNullOrWhiteSpace(newTitle) || string.IsNullOrWhiteSpace(newArtist) || string.IsNullOrWhiteSpace(newAlbum) || string.IsNullOrWhiteSpace(newYearString) || string.IsNullOrWhiteSpace(newGenre) || string.IsNullOrWhiteSpace(newTagsString))
+            {
+                Console.WriteLine("Please provide all fields.");
+                break;
+                
+            }
+            if(int.TryParse(newYearString, out int newYear))
+            {
+                List<string> newTags = newTagsString.Split(",").ToList();
+                Song newSong = new Song
+                {
+                    Id = songList.Count + 1,
+                    Title = newTitle,
+                    Artist = newArtist,
+                    Album = newAlbum,
+                    Year = newYear,
+                    Genre = newGenre,
+                    Tags = newTags
+                };
+                await methodLibrary.AddNewSong(newSong);
+                break;
+            }
 
             break;
         case "4":
@@ -238,7 +286,65 @@ while (!exit)
             {
                 Console.WriteLine("Invalid choice");
             }*/
-            await UpdateExistingSong();
+            Console.WriteLine("Enter searchId: ");
+            if(!int.TryParse(Console.ReadLine(), out int updateId))
+            {
+                Console.WriteLine("Invalid id.");
+                break;
+            }
+            var updateSong = await methodLibrary.GetSongById(updateId);
+
+            Console.WriteLine("Enter new information. Leave blank to keep existing information.");
+            Console.WriteLine($"Current Title: {updateSong.Title}");
+            Console.WriteLine("New Title: ");
+            string? updateTitle = Console.ReadLine();
+            if(!string.IsNullOrWhiteSpace(updateTitle))
+            {
+                updateSong.Title = updateTitle;
+            }
+
+            Console.WriteLine($"Current Artist: {updateSong.Artist}");
+            Console.WriteLine("New Artist: ");
+            string? updateArtist = Console.ReadLine();
+            if(!string.IsNullOrWhiteSpace(updateArtist))
+            {
+                updateSong.Artist = updateArtist;
+            }
+
+            Console.WriteLine($"Current Album: {updateSong.Album}");
+            Console.WriteLine("New Album: ");
+            string? updateAlbum = Console.ReadLine();
+            if(!string.IsNullOrWhiteSpace(updateAlbum))
+            {
+                updateSong.Album = updateAlbum;
+            }
+
+            Console.WriteLine($"Current Year: {updateSong.Year}");
+            Console.WriteLine("New Year: ");
+            string? updateYearString = Console.ReadLine();
+            if(int.TryParse(updateYearString, out int updateYear))
+            {
+                updateSong.Year = updateYear;
+            }
+
+            Console.WriteLine($"Current Genre: {updateSong.Genre}");
+            Console.WriteLine("New Genre: ");
+            string? updateGenre = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(updateGenre))
+            {
+                updateSong.Genre = updateGenre;
+            }
+
+            string currentTagsString = string.Join(",", updateSong.Tags);
+            Console.WriteLine($"Current Tags: {currentTagsString}");
+            Console.WriteLine("New Tags (Seperate by commas): ");
+            string? updateTagsString = Console.ReadLine();
+            if(!string.IsNullOrWhiteSpace(updateTagsString))
+            {
+                List<string> updateTags = updateTagsString.Split(",").ToList();
+                updateSong.Tags = updateTags;
+            }
+            await methodLibrary.UpdateExistingSong(updateId, updateSong);
 
             break;
         case "5":
@@ -257,7 +363,13 @@ while (!exit)
                     Console.WriteLine($"Error: {response.StatusCode}");
                 }
             }*/
-            await DeleteSong();
+            Console.WriteLine("Enter id of song to be deleted: ");
+            if(!int.TryParse(Console.ReadLine(), out int deleteId))
+            {
+                Console.WriteLine("Invalid id.");
+                break;
+            }
+            await methodLibrary.DeleteSong(deleteId);
             break;
         case "6":
             exit = true;
@@ -268,7 +380,7 @@ while (!exit)
             break;
     }
 }
-
+/*
 async Task<List<Song>> GetAllSongs()
 {
     using (var client = new HttpClient())
@@ -288,7 +400,7 @@ async Task<List<Song>> GetAllSongs()
                 Console.WriteLine($"Title: {song.Title}");
                 Console.WriteLine($"Artist: {song.Artist}");
                 Console.WriteLine();
-            }*/
+            }**
 
             if(songs != null)
             {
@@ -307,7 +419,7 @@ async Task<List<Song>> GetAllSongs()
         }
     }
 }
-
+*
 async Task<Song> GetSongById()
 {
     using (var client = new HttpClient())
@@ -332,7 +444,7 @@ async Task<Song> GetSongById()
                 else
                 {
                     Console.WriteLine($"Song with id {searchId} not found.");
-                    var songs = await GetAllSongs();
+                    var songs = await methodLibrary.GetAllSongs();
                     Console.WriteLine($"Id to search cannot be less than 1 or greater than {songs.Count}.");
                     return await GetSongById();
                 }
@@ -349,14 +461,14 @@ async Task<Song> GetSongById()
             return await GetSongById();
         }
     }
-}
+}*
 
 async Task AddNewSong()
 {
     using (var client = new HttpClient())
     {
         client.BaseAddress = new Uri("http://localhost:5298");
-        var songList = await GetAllSongs();
+        var songList = await methodLibrary.GetAllSongs();
         Console.WriteLine("Enter new song information.");
         Console.WriteLine("Title: ");
         string? newTitle = Console.ReadLine();
@@ -409,14 +521,14 @@ async Task AddNewSong()
             return;
         }
     }
-}
+}*
 
 async Task UpdateExistingSong()
 {
     using (var client = new HttpClient())
     {
         client.BaseAddress = new Uri("http://localhost:5298");
-        var updateSong = await GetSongById();
+        var updateSong = await methodLibrary.GetSongById();
 
         Console.WriteLine("Enter new information. Leave blank to keep existing information.");
         Console.WriteLine($"Current Title: {updateSong.Title}");
@@ -475,7 +587,7 @@ async Task UpdateExistingSong()
         Console.WriteLine($"Updated song with id: {updateSong.Id}");
         return;
     }
-}
+}*
 
 async Task DeleteSong()
 {
@@ -504,4 +616,4 @@ async Task DeleteSong()
             await DeleteSong();
         }
     }
-}
+}*/

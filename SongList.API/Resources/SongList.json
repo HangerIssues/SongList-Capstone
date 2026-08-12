@@ -24,5 +24,18 @@
       "tag2",
       "tag3"
     ]
+  },
+  {
+    "Id": 3,
+    "Title": "Test Title",
+    "Artist": "Test Artist",
+    "Album": "Test Album",
+    "Year": 2000,
+    "Genre": "Test Genre",
+    "Tags": [
+      "test1",
+      "test2",
+      "test3"
+    ]
   }
 ]
