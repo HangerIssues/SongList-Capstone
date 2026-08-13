@@ -12,13 +12,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-/*
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
-*/
-// builder.Services.AddScoped<ISongListService, SongListService>();
 
 var app = builder.Build();
 
@@ -76,7 +69,7 @@ app.MapPut(pattern: "/songs/{id}", handler: (int id, Song song) =>
     {
         return Results.NotFound();
     }
-
+    //AI used to autocomplete repetitive lines
     updatedSong.Id = song.Id;
     updatedSong.Title = song.Title;
     updatedSong.Artist = song.Artist;
@@ -84,7 +77,7 @@ app.MapPut(pattern: "/songs/{id}", handler: (int id, Song song) =>
     updatedSong.Year = song.Year;
     updatedSong.Genre = song.Genre;
     updatedSong.Tags = song.Tags;
-
+    //End of autocomplete
     var updatedJson = JsonSerializer.Serialize(jsonData, new JsonSerializerOptions {WriteIndented = true });
     File.WriteAllText("./Resources/SongList.json", updatedJson);
     return Results.Ok(updatedSong);
@@ -121,7 +114,6 @@ app.MapControllers();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-    // app.MapScalarApiReference();
 }
 
 app.UseHttpsRedirection();

@@ -17,25 +17,12 @@
     "Title": "New Title",
     "Artist": "New Artist",
     "Album": "New Album",
-    "Year": 2026,
+    "Year": 2025,
     "Genre": "New Genre",
     "Tags": [
       "tag1",
       "tag2",
       "tag3"
-    ]
-  },
-  {
-    "Id": 3,
-    "Title": "Test Title",
-    "Artist": "Test Artist",
-    "Album": "Test Album",
-    "Year": 2000,
-    "Genre": "Test Genre",
-    "Tags": [
-      "test1",
-      "test2",
-      "test3"
     ]
   }
 ]
